@@ -148,13 +148,23 @@ class Set {
         }
 
         // Otherwise just normally extract the data
-        if(!array_key_exists($c, $array)) {
-            return null;
+        if(is_array($array)) {
+            if(!array_key_exists($c, $array)) {
+                return null;
+            } else {
+                $n = $array[$c];
+            }
+        } else {
+            if(!property_exists($array, $c)) {
+                return null;
+            } else {
+                $n = $array->$c;
+            }
         }
         if(count($ps) > 0) {
-            return Set::extractReference($array[$c], $path);
+            return Set::extractReference($n, $path);
         } else {
-            return $array[$c];
+            return $n;
         }
     }
 
